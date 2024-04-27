@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.signup.model.User;
 
 public interface Repository extends JpaRepository<User, Integer> {
-    Optional<User> findByEmail(String username);
+    Optional<User> findById(int product_id);
 }

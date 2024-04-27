@@ -21,40 +21,43 @@ import com.example.signup.service.Service1;
 import lombok.NonNull;
 
 @RestController
-@RequestMapping("api/users")
+@RequestMapping("api/products")
 public class Controller {
     @Autowired
-    private Service1 userService;
+    private Service1 productService;
 
-    @PostMapping("/createUser")
-    public ResponseEntity<User> createUser(@NonNull @RequestBody User user) {
-        User createdUser = userService.createnewuser(user);
-        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+    @PostMapping("/createProduct")
+    public ResponseEntity<User> createProduct(@NonNull @RequestBody User user) {
+        User createdProduct = productService.createnewProduct(user);
+        return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
 
-    @GetMapping("readUser/{email}")
-    public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
-        Optional<User> user = userService.getModelByEmail(email);
+    @GetMapping("readProduct/{product_id}")
+    public ResponseEntity<?> getUserById(@PathVariable int product_id) {
+        Optional<User> user = productService.getModelById(product_id);
         return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
 
     }
 
-    @GetMapping("/readUser")
+    @GetMapping("/readProducts")
     public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllusers();
+        List<User> users = productService.getAllusers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
-    @PutMapping("updateUser/{email}")
-    public ResponseEntity<User> updateUser(@NonNull @PathVariable String email, @RequestBody User updateRequest) {
-        User updated = userService.updateUser(email, updateRequest);
+    @PutMapping("updateProduct/{product_id}")
+    public ResponseEntity<User> updateProduct(@PathVariable int product_id, @RequestBody User updateRequest) {
+        User updated = productService.updateProduct(product_id, updateRequest);
         return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 
-    @DeleteMapping("deleteUser/{userId}")
-    public ResponseEntity<Void> removeUser(@NonNull @PathVariable Integer userId) {
-        userService.removeUser(userId);
+    @DeleteMapping("deleteProduct/{product_id}")
+    public ResponseEntity<Void> removeProduct(@NonNull @PathVariable Integer product_id) {
+        productService.removeProduct(product_id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
+
+
+

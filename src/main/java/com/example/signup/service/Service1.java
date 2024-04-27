@@ -16,7 +16,7 @@ public class Service1 {
     @Autowired
     public Repository repo;
 
-    public User createnewuser(@NonNull User user) {
+    public User createnewProduct(@NonNull User user) {
         return repo.save(user);
     }
 
@@ -24,21 +24,22 @@ public class Service1 {
         return repo.findAll();
     }
 
-    public Optional<User> getModelByEmail(String email) {
-        return repo.findByEmail(email);
+    public Optional<User> getModelById(@NonNull Integer product_id) {
+        return repo.findById(product_id);
     }
 
-    public User updateUser(@NonNull String email, @RequestBody User user) {
-        return repo.findByEmail(email).map(existingUser -> {
-            existingUser.setName(user.getName());
-            existingUser.setEmail(user.getEmail());
-            existingUser.setDob(user.getDob());
-            existingUser.setPassword(user.getPassword());
+    public User updateProduct(int product_id, @RequestBody User user) {
+        return repo.findById(product_id).map(existingUser -> {
+            existingUser.setProduct_name(user.getProduct_name());
+            existingUser.setProduct_quantity(user.getProduct_quantity());
+            existingUser.setProduct_category(user.getProduct_category());
+            existingUser.setProduct_price(user.getProduct_price());
             return repo.save(existingUser);
-        }).orElseThrow(() -> new RuntimeException("User not found with this email:" + email));
+        }).orElseThrow(() -> new RuntimeException("User not found with this ID:" + product_id));
     }
 
-    public void removeUser(@NonNull Integer userId) {
-        repo.deleteById(userId);
+    public void removeProduct(@NonNull Integer product_id) {
+        repo.deleteById(product_id);
     }
 }
+
